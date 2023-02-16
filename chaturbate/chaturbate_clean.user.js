@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           Chaturbate Clean
 // @description    Removes all ads, sub-selector on the tabs, shows video if you have no access, full screen with chat.
-// @version        4.9.1
+// @version        4.9.2
 // @namespace      chaturbate_goes_nassbar
 // @include        /^https://(.*\.)chaturbate\.com/.*$/
 // @exclude        /^https://(blog|secure).chaturbate.com/.*$/
@@ -14,6 +14,26 @@
 // @license	       MIT
 // @copyright      2023, nassbar (https://greasyfork.org/users/317104-nass-nassbar-bar)
 // ==/UserScript==
+
+function addGlobalStyle(css) {
+  var head, style;
+  head = document.getElementsByTagName("head")[0];
+  if (!head) {
+    return;
+  }
+  style = document.createElement("style");
+  style.type = "text/css";
+  style.innerHTML = css;
+  head.appendChild(style);
+}
+
+addGlobalStyle("#roomlist_pagination { width: 100%; }");
+addGlobalStyle(
+  ".room_list_room { width: 192px !important; height: 180px !important; }"
+);
+addGlobalStyle(
+  ".room_thumbnail { width: 192px !important; height: 108px !important; }"
+);
 
 (function () {
   "use strict";
