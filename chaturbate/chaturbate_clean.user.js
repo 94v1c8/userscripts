@@ -1,39 +1,20 @@
 // ==UserScript==
 // @name           Chaturbate Clean
 // @description    Removes all ads, sub-selector on the tabs, shows video if you have no access, full screen with chat.
-// @version        4.9.2
+// @version        4.9.3
 // @namespace      chaturbate_goes_nassbar
-// @include        /^https://(.*\.)chaturbate\.com/.*$/
+// @match          https://*.chaturbate.com/*
 // @exclude        /^https://(blog|secure).chaturbate.com/.*$/
 // @exclude        /^https://(.*\.)chaturbate.com/(accounts|apps|contest|embed|tipping)/.*$/
 // @homepageURL    https://github.com/nassbar/userscripts/chaturbate/
 // @downloadURL    https://github.com/nassbar/userscripts/raw/master/chaturbate/chaturbate_clean.user.js
+// @updateURL    https://github.com/nassbar/userscripts/raw/master/chaturbate/chaturbate_clean.user.js
 // @supportURL     https://github.com/nassbar/userscripts/issues
 // @grant          none
 // @run-at         document-end
 // @license	       MIT
 // @copyright      2023, nassbar (https://greasyfork.org/users/317104-nass-nassbar-bar)
 // ==/UserScript==
-
-function addGlobalStyle(css) {
-  var head, style;
-  head = document.getElementsByTagName("head")[0];
-  if (!head) {
-    return;
-  }
-  style = document.createElement("style");
-  style.type = "text/css";
-  style.innerHTML = css;
-  head.appendChild(style);
-}
-
-addGlobalStyle("#roomlist_pagination { width: 100%; }");
-addGlobalStyle(
-  ".room_list_room { width: 192px !important; height: 180px !important; }"
-);
-addGlobalStyle(
-  ".room_thumbnail { width: 192px !important; height: 108px !important; }"
-);
 
 (function () {
   "use strict";
@@ -43,21 +24,46 @@ addGlobalStyle(
     return true;
   };
 
+  function addGlobalStyle(css) {
+    var head, style;
+    head = document.getElementsByTagName("head")[0];
+    if (!head) {
+      return;
+    }
+    style = document.createElement("style");
+    style.type = "text/css";
+    style.innerHTML = css;
+    head.appendChild(style);
+  }
+
+  addGlobalStyle("#roomlist_pagination { width: 100%; }");
+
+  addGlobalStyle(
+    ".room_list_room { width: 192px !important; height: 180px !important; }"
+  );
+
+  addGlobalStyle(
+    ".room_thumbnail { width: 192px !important; height: 108px !important; }"
+  );
+
   // to skip agree screen
   if (!readCookie("agreeterms")) {
     createCookie("agreeterms", "1", 30);
     createCookie("noads", "1", 30);
     window.location.reload(true);
   }
+
   // this cookie removes most add's
   if (!readCookie("noads")) {
     createCookie("noads", "1", 30);
     window.location.reload(true);
   }
+
   // initial player size
   if (!readCookie("player_width")) {
     createCookie("player_width", "640", 1);
   }
+
   // thumbnails
   if (!readCookie("animation")) {
     createCookie("animation", "On", 1);
